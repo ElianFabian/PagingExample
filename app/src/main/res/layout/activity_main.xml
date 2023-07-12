@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:gravity="center"
+    android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvQuotes"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:itemCount="5"
-        tools:listitem="@layout/item_quote" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnRegularPagination"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="Regular pagination" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="16dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCustomPagination"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:backgroundTint="#2196F3"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="Custom pagination" />
+
+</LinearLayout>

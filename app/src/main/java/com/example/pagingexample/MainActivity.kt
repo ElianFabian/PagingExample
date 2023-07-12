@@ -1,16 +1,16 @@
 package com.example.pagingexample
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pagingexample.databinding.ActivityMainBinding
-import com.example.pagingexample.paging.QuotePagingAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-	private val viewModel by viewModels<QuoteViewModel>()
+
 	private lateinit var binding: ActivityMainBinding
+
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -23,12 +23,18 @@ class MainActivity : AppCompatActivity() {
 	}
 
 	private fun initUi() {
-		val pagingAdapter = QuotePagingAdapter()
-		binding.rvQuotes.adapter = pagingAdapter
-
-		viewModel.quoteList.observe(this)
-		{
-			pagingAdapter.submitData(lifecycle, it)
+		binding.apply {
+			btnRegularPagination.setOnClickListener {
+				startActivity(
+					Intent(applicationContext, RegularPaginationActivity::class.java)
+				)
+			}
+			btnCustomPagination.setOnClickListener {
+				startActivity(
+					Intent(applicationContext, CustomPaginationActivity::class.java)
+				)
+			}
 		}
 	}
+
 }

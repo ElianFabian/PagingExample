@@ -8,8 +8,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class QuoteViewModel @Inject constructor(
-	private val quoteRepository: QuoteRepository,
+class RegularQuoteViewModel @Inject constructor(
+	quoteRepository: QuoteRepository,
 ) : ViewModel() {
-	val quoteList = quoteRepository.getQuotes().cachedIn(viewModelScope)
+	val quoteList = quoteRepository
+		.getQuotes()
+		.cachedIn(viewModelScope)
 }

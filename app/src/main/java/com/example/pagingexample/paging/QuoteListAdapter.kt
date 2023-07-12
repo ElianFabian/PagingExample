@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pagingexample.databinding.ItemQuoteBinding
 import com.example.pagingexample.models.QuoteModel
 
-class QuotePagingAdapter : PagingDataAdapter<QuoteModel, QuotePagingAdapter.ViewHolder>(
+class QuoteListAdapter : ListAdapter<QuoteModel, QuoteListAdapter.ViewHolder>(
 	object : DiffUtil.ItemCallback<QuoteModel>() {
 		override fun areItemsTheSame(oldItem: QuoteModel, newItem: QuoteModel) = oldItem.id == newItem.id
 
@@ -23,7 +24,7 @@ class QuotePagingAdapter : PagingDataAdapter<QuoteModel, QuotePagingAdapter.View
 		return ViewHolder(binding)
 	}
 
-	override fun onBindViewHolder(holder: QuotePagingAdapter.ViewHolder, position: Int) {
+	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 		val item = getItem(position)
 
 		item?.also {
