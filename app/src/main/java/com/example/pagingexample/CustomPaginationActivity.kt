@@ -7,8 +7,6 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.example.pagingexample.databinding.LayoutPaginatedListBinding
 import com.example.pagingexample.paging.QuoteListAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,9 +55,9 @@ class CustomPaginationActivity : AppCompatActivity() {
 					quotePagingAdapter.submitList(quotes)
 				}
 		}
-		lifecycleScope.launch { 
+		lifecycleScope.launch {
 			viewModel.state.flowWithLifecycle(lifecycle)
-				.collectLatest { state -> 
+				.collectLatest { state ->
 					binding.pbIsLoading.isVisible = state.isLoading
 				}
 		}

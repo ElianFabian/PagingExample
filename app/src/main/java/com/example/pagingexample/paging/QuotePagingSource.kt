@@ -3,15 +3,19 @@ package com.example.pagingexample.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.pagingexample.models.QuoteModel
+import com.example.pagingexample.repository.PaginationState
 import com.example.pagingexample.retrofit.QuoteApi
-import kotlinx.coroutines.delay
 
 class QuotePagingSource(
 	private val quoteApi: QuoteApi,
+	private val initialPage: Int,
+	private val pageState: PaginationState,
 ) : PagingSource<Int, QuoteModel>() {
+
 	override suspend fun load(params: LoadParams<Int>): LoadResult<Int, QuoteModel> {
 		return try {
-			val position = params.key ?: 1
+			val position = pageState.currentPagePosition ?: params.key ?: initialPage
+			pageState.currentPagePosition = null
 
 			val response = quoteApi.getQuotes(position)
 

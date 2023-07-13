@@ -17,19 +17,19 @@ class DefaultPaginator<Key, Item>(
 		if (isMakingRequest) return
 
 		isMakingRequest = true
-		
+
 		onLoadUpdated(true)
-		
+
 		val result = onRequest(currentKey)
-		
+
 		isMakingRequest = false
-		
+
 		val items = result.getOrElse { throwable ->
 			onError(throwable)
 			onLoadUpdated(false)
 			return
 		}
-		
+
 		currentKey = getNextKey(items)
 		onSuccess(items, currentKey)
 

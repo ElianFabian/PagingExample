@@ -3,7 +3,7 @@ package com.example.pagingexample
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
+import androidx.core.view.isInvisible
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
@@ -11,6 +11,8 @@ import com.example.pagingexample.databinding.LayoutPaginatedListBinding
 import com.example.pagingexample.paging.QuotePagingAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -19,6 +21,8 @@ class RegularPaginationActivity : AppCompatActivity() {
 	private lateinit var binding: LayoutPaginatedListBinding
 
 	private val quotePagingAdapter = QuotePagingAdapter()
+
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 
@@ -30,14 +34,23 @@ class RegularPaginationActivity : AppCompatActivity() {
 		initUi()
 	}
 
+
 	private fun initUi() {
-		binding.rvQuotes.adapter = quotePagingAdapter.withLoadStateFooter(
-			footer = SimpleLoadStateAdapter(
-				onRetry = {
-					quotePagingAdapter.retry()
-				}
+		binding.apply {
+			rvQuotes.adapter = quotePagingAdapter.withLoadStateFooter(
+				footer = SimpleLoadStateAdapter(
+					onRetry = {
+						quotePagingAdapter.retry()
+					}
+				)
 			)
-		)
+
+			btnRefresh.setOnClickListener {
+				val newPage = binding.tietPage.text.toString().toIntOrNull()
+				viewModel.jumpToPage(newPage)
+				quotePagingAdapter.refresh()
+			}
+		}
 	}
 
 	private fun subscribeToEvents() {
@@ -51,8 +64,18 @@ class RegularPaginationActivity : AppCompatActivity() {
 			quotePagingAdapter.loadStateFlow.flowWithLifecycle(lifecycle)
 				.collectLatest { state ->
 					val isLoading = state.append is LoadState.Loading || state.refresh is LoadState.Loading
-					
-					binding.pbIsLoading.isVisible = isLoading
+
+					binding.pbIsLoading.isInvisible = !isLoading
+				}
+		}
+		lifecycleScope.launch {
+			quotePagingAdapter.loadStateFlow.flowWithLifecycle(lifecycle)
+				.map { it.refresh }
+				.distinctUntilChanged()
+				.collectLatest { refresh ->
+					if (refresh is LoadState.NotLoading) {
+						binding.rvQuotes.scrollToPosition(0)
+					}
 				}
 		}
 	}

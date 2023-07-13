@@ -45,7 +45,7 @@ class CustomQuoteViewModel @Inject constructor(
 	)
 
 	val quoteList = repository
-		.getQuotes()
+		.getQuotesFlow()
 		.cachedIn(viewModelScope)
 
 	init {

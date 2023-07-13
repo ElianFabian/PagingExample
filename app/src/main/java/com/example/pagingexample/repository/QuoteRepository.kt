@@ -10,12 +10,24 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
+class PaginationState(var currentPagePosition: Int?)
+
 class QuoteRepository @Inject constructor(
 	private val quoteApi: QuoteApi,
 ) {
-	fun getQuotes() = Pager(
+	private val pageState = PaginationState(currentPagePosition = null)
+
+	fun jumpToPage(page: Int?) {
+		pageState.currentPagePosition = page
+	}
+
+	private fun createPagingSource(): QuotePagingSource {
+		return QuotePagingSource(quoteApi, initialPage = 1, pageState = pageState)
+	}
+
+	fun getQuotesFlow() = Pager(
 		config = PagingConfig(pageSize = 20, maxSize = 100),
-		pagingSourceFactory = { QuotePagingSource(quoteApi) },
+		pagingSourceFactory = { createPagingSource() },
 	).flow
 
 	suspend fun getQuotes(page: Int): Result<List<QuoteModel>> {

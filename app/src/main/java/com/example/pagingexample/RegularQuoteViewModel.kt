@@ -9,9 +9,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegularQuoteViewModel @Inject constructor(
-	quoteRepository: QuoteRepository,
+	private val quoteRepository: QuoteRepository,
 ) : ViewModel() {
-	val quoteList = quoteRepository
-		.getQuotes()
+
+	var quoteList = quoteRepository
+		.getQuotesFlow()
 		.cachedIn(viewModelScope)
+
+	fun jumpToPage(page: Int?) {
+		quoteRepository.jumpToPage(page)
+	}
 }
