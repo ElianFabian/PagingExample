@@ -5,6 +5,7 @@ import androidx.paging.PagingState
 import com.example.pagingexample.models.QuoteModel
 import com.example.pagingexample.repository.PaginationState
 import com.example.pagingexample.retrofit.QuoteApi
+import kotlinx.coroutines.CancellationException
 
 class QuotePagingSource(
 	private val quoteApi: QuoteApi,
@@ -24,6 +25,9 @@ class QuotePagingSource(
 				prevKey = if (position == 1) null else position - 1,
 				nextKey = if (position == response.totalPages) null else position + 1,
 			)
+		}
+		catch (e: CancellationException) {
+			throw e
 		}
 		catch (e: Exception) {
 			LoadResult.Error(e)

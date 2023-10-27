@@ -27,7 +27,10 @@ class QuotePagingAdapter : PagingDataAdapter<QuoteModel, QuotePagingAdapter.View
 		val item = getItem(position)
 
 		item?.also {
-			holder.binding.tvQuote.text = it.content
+			holder.binding.apply {
+				tvQuote.text = it.content
+				tvAuthor.text = it.author
+			}
 		}
 	}
 }

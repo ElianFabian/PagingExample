@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -50,11 +51,6 @@
 
     </LinearLayout>
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -63,13 +59,11 @@
             android:id="@+id/rvQuotes"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:background="#EEF9FA"
             android:clipToPadding="false"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:paddingVertical="10dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="5"
+            tools:itemCount="6"
             tools:listitem="@layout/item_quote" />
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
@@ -77,8 +71,26 @@
             android:layout_width="match_parent"
             android:layout_height="6dp"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:indeterminate="true" />
+
+        <LinearLayout
+            android:id="@+id/viewStickyQuoteContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="20dp"
+            android:background="#8D000000">
+
+            <include
+                android:id="@+id/viewStickyQuote"
+                layout="@layout/item_quote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

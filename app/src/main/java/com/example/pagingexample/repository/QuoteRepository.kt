@@ -22,7 +22,7 @@ class QuoteRepository @Inject constructor(
 	}
 
 	private fun createPagingSource(): QuotePagingSource {
-		return QuotePagingSource(quoteApi, initialPage = 1, pageState = pageState)
+			return QuotePagingSource(quoteApi, initialPage = 1, pageState = pageState)
 	}
 
 	fun getQuotesFlow() = Pager(
@@ -49,4 +49,6 @@ class QuoteRepository @Inject constructor(
 			Result.failure(e)
 		}
 	}
+	
+	suspend fun getQuote(id: String) = quoteApi.getQuote(id)
 }
